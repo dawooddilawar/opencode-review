@@ -1,0 +1,54 @@
+{
+  "name": "opencode-review",
+  "version": "0.1.0",
+  "description": "AI-powered code review CLI using parallel focused agents via opencode.ai",
+  "author": "Dawood Dilawar <dawood@dawooddilawar.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dawooddilawar/opencode-review"
+  },
+  "homepage": "https://github.com/dawooddilawar/opencode-review#readme",
+  "bugs": {
+    "url": "https://github.com/dawooddilawar/opencode-review/issues"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "opencode-review": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "agents",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "code-review",
+    "ai",
+    "cli",
+    "git",
+    "llm",
+    "static-analysis",
+    "opencode",
+    "gpt",
+    "claude",
+    "automation",
+    "ci-cd"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build:test": "tsc -p tsconfig.test.json",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "test": "npm run build:test && node --test dist-test",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "typescript": "^5.9.2",
+    "eslint": "^8.57.0"
+  }
+}
+
