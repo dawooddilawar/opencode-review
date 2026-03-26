@@ -39,16 +39,15 @@
   ],
   "scripts": {
     "build": "tsc",
-    "build:test": "tsc -p tsconfig.test.json",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
-    "test": "npm run build:test && node --test dist-test/test/*.test.js",
+    "test": "node --import tsx --test \"test/*.test.ts\"",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
     "@types/node": "^24.3.0",
-    "typescript": "^5.9.2",
-    "eslint": "^8.57.0"
+    "eslint": "^8.57.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.2"
   }
 }
-
