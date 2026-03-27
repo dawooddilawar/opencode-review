@@ -7,7 +7,7 @@ import { DEFAULT_BASE_BRANCH, DEFAULT_CONFIDENCE_THRESHOLD, DEFAULT_MODEL, parse
 import { aggregateIssues, computeStats } from "./aggregate";
 import type { AggregatedReview } from "./types";
 import { getDiff, isGitRepo, parseDiffStats, type DiffMode } from "./git";
-import { listOpencodeModels } from "./opencode";
+import { listOpencodeModels, OpencodeNotFoundError } from "./opencode";
 import { renderMarkdown } from "./renderMarkdown";
 import { renderTerminal } from "./renderTerminal";
 import { runAgents, runSynthesizer } from "./runAgents";
@@ -278,7 +278,11 @@ export async function main(argv = process.argv.slice(2)): Promise<number> {
         return 1;
       }
     }
-  } catch {
+  } catch (e) {
+    if (e instanceof OpencodeNotFoundError) {
+      process.stderr.write(`\n  ${tc(`${T_BOLD}${T_RED}`, "Error:")} ${e.message}\n\n`);
+      return 1;
+    }
     process.stderr.write(`  ${tc(T_YELLOW, "⚠")} Could not verify model availability, proceeding anyway.\n`);
   }
 

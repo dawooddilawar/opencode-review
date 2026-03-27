@@ -27,6 +27,7 @@ export const defaultRunner: CommandRunner = async (cmd, args, opts) => {
       cwd: opts.cwd,
       env: opts.env,
       stdio: ["pipe", "pipe", "pipe"],
+      shell: process.platform === "win32",
     });
 
     let stdout = "";
@@ -109,9 +110,17 @@ export async function runOpencode(params: RunOpencodeParams): Promise<RunCommand
   );
 }
 
+export class OpencodeNotFoundError extends Error {
+  constructor() {
+    super("opencode CLI not found. Install it with: npm install -g opencode-ai");
+    this.name = "OpencodeNotFoundError";
+  }
+}
+
 export async function listOpencodeModels(runner?: CommandRunner): Promise<string[]> {
   const run = runner ?? defaultRunner;
   const res = await run("opencode", ["models"], { cwd: process.cwd(), timeoutMs: 30_000 });
+  if (res.exitCode === 127) throw new OpencodeNotFoundError();
   const combined = `${res.stdout}\n${res.stderr}`;
   return combined
     .split("\n")
